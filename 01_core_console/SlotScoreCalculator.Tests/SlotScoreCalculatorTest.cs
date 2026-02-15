@@ -1,6 +1,6 @@
 ﻿namespace SlotScoreCalculator.Tests;
 
-public class Tests
+public class SlotScoreCalculatorTest
 {
     [SetUp]
     public void Setup()
@@ -8,8 +8,11 @@ public class Tests
     }
 
     [Test]
-    public void Test1()
+    public void Lose()
     {
-        Assert.Pass();
+        SlotScoreCalculator sut = new SlotScoreCalculator();
+        int win = sut.calculate();
+
+        Assert.That(win, Is.EqualTo(0));
     }
 }

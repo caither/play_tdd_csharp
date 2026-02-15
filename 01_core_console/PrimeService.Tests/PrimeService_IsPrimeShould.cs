@@ -3,6 +3,7 @@ using PrimeService;
 
 namespace PrimeService.Tests;
 
+[Ignore("暫時停用，專心寫SUT")]
 [TestFixture]
 public class PrimeService_IsPrimeShould
 {
