@@ -25,18 +25,21 @@ public class SlotScoreCalculator
 
     private static int GetOddFromLines(int lines)
     {
-        //預設賠率為 0 倍
-        int odd = 0;
-
         //設定中獎賠率
-        if (lines == 0) { odd = 0; }
-        else if (lines == 1) { odd = 10; }
-        else if (lines == 2) { odd = 40; }
-        else if (lines == 3) { odd = 100; }
-        else
+        var odds = new Dictionary<int, int>
         {
-            throw new InvalidOperationException("TBD");
+            { 0, 0 },
+            { 1, 10 },
+            { 2, 40 },
+            { 3, 100 }
+        };
+
+        // 對標 odds.get(lines) & catch Objects.isNull(odd)
+        if (!odds.TryGetValue(lines, out int odd))
+        {
+            throw new InvalidOperationException($"Unsupported lines: {lines}");
         }
+
         return odd;
     }
 
