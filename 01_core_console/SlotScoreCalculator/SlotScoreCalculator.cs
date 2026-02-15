@@ -6,6 +6,15 @@ public class SlotScoreCalculator
 {
     private List<List<string>> wheels;
 
+    //設定中獎賠率
+    private static readonly IReadOnlyDictionary<int, int> Odds = new Dictionary<int, int>
+        {
+            { 0, 0 },
+            { 1, 10 },
+            { 2, 40 },
+            { 3, 100 }
+        };
+
     public SlotScoreCalculator(List<List<string>> wheels)
     {
         this.wheels = wheels;
@@ -25,17 +34,9 @@ public class SlotScoreCalculator
 
     private static int GetOddFromLines(int lines)
     {
-        //設定中獎賠率
-        var odds = new Dictionary<int, int>
-        {
-            { 0, 0 },
-            { 1, 10 },
-            { 2, 40 },
-            { 3, 100 }
-        };
 
         // 對標 odds.get(lines) & catch Objects.isNull(odd)
-        if (!odds.TryGetValue(lines, out int odd))
+        if (!Odds.TryGetValue(lines, out int odd))
         {
             throw new InvalidOperationException($"Unsupported lines: {lines}");
         }
