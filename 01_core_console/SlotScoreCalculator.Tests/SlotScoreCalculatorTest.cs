@@ -7,6 +7,25 @@ public class SlotScoreCalculatorTests
     {
     }
 
+    [Test]
+    public void TwoLines()
+    {
+        // 轉出兩條線
+        var wheels = new List<List<string>>
+        {
+                new() { "A", "2", "3" },
+                new() { "A", "2", "3" },
+                new() { "A", "2", "3" },
+                new() { "A", "2", "3" },
+                new() { "A", "2", "4" }
+        };
+        var sut = new SlotScoreCalculator(wheels
+            );
+
+        //斷言：10 塊錢賠 40 倍，贏得得分應為 400
+        int win = sut.calculate(10);
+        Assert.That(win, Is.EqualTo(400));
+    }
 
     [Test]
     public void OneLine()
