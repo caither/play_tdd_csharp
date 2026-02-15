@@ -23,7 +23,7 @@ public class SlotScoreCalculatorTests
             );
 
         //斷言：10 塊錢賠 40 倍，贏得得分應為 400
-        int win = sut.calculate(10);
+        int win = sut.Calculate(10);
         Assert.That(win, Is.EqualTo(400));
     }
 
@@ -43,7 +43,7 @@ public class SlotScoreCalculatorTests
             );
 
         //斷言：10 塊錢賠 10 倍，贏得得分應為 100
-        int win = sut.calculate(10);
+        int win = sut.Calculate(10);
         Assert.That(win, Is.EqualTo(100));
     }
 
@@ -63,7 +63,7 @@ public class SlotScoreCalculatorTests
             );
 
         //沒有中獎，賠率為 0，所以贏得的分數也是 0
-        int win = sut.calculate(10);
+        int win = sut.Calculate(10);
         Assert.That(win, Is.EqualTo(0));
     }
 }

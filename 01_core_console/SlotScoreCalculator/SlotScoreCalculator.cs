@@ -11,13 +11,38 @@ public class SlotScoreCalculator
         this.wheels = wheels;
     }
 
-    public int calculate(int bet)
+    public int Calculate(int bet)
+    {
+        int odd = GetOdd();
+        return odd * bet;
+    }
+
+    private int GetOdd()
+    {
+        int lines = GetLines();
+        return GetOddFromLines(lines);
+    }
+
+    private static int GetOddFromLines(int lines)
     {
         //預設賠率為 0 倍
         int odd = 0;
 
+        //設定中獎賠率
+        if (lines == 0) { odd = 0; }
+        else if (lines == 1) { odd = 10; }
+        else if (lines == 2) { odd = 40; }
+        else
+        {
+            throw new InvalidOperationException("TBD");
+        }
+        return odd;
+    }
+
+    private int GetLines()
+    {
         //加總中獎行數
-        int sumOfSameLines = 0;
+        int lines = 0;
 
         for (int i = 0; i < 3; i++)
         {
@@ -27,18 +52,10 @@ public class SlotScoreCalculator
             //每一條線中獎
             if (distinctSymbols.Count == 1)
             {
-                sumOfSameLines += 1;
-            }
-
-            //設定中獎賠率
-            if (sumOfSameLines == 0) { odd = 0; }
-            else if (sumOfSameLines == 1) { odd = 10; }
-            else if (sumOfSameLines == 2) { odd = 40; }
-            else
-            {
-                throw new InvalidOperationException("TBD");
+                lines += 1;
             }
         }
-        return odd * bet;
+
+        return lines;
     }
 }
