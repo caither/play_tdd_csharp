@@ -32,6 +32,7 @@ public class SlotScoreCalculator
         if (lines == 0) { odd = 0; }
         else if (lines == 1) { odd = 10; }
         else if (lines == 2) { odd = 40; }
+        else if (lines == 3) { odd = 100; }
         else
         {
             throw new InvalidOperationException("TBD");
