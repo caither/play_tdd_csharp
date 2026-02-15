@@ -22,13 +22,17 @@ public class SlotScoreCalculator
 
     public int Calculate(int bet)
     {
-        int odd = GetOdd();
+        List<List<string>> screen = wheels;
+
+        // --用screen代表wheels隨機輪轉結果--
+
+        int odd = GetOdd(screen);
         return odd * bet;
     }
 
-    private int GetOdd()
+    private int GetOdd(List<List<string>> screen)
     {
-        int lines = GetLines();
+        int lines = GetLines(screen);
         return GetOddFromLines(lines);
     }
 
@@ -44,7 +48,7 @@ public class SlotScoreCalculator
         return odd;
     }
 
-    private int GetLines()
+    private int GetLines(List<List<string>> screen)
     {
         //加總中獎行數
         int lines = 0;
@@ -52,7 +56,7 @@ public class SlotScoreCalculator
         for (int i = 0; i < 3; i++)
         {
             var distinctSymbols =
-                wheels.Select(wheel => wheel[i]).Distinct().ToList();
+                screen.Select(wheel => wheel[i]).Distinct().ToList();
 
             //每一條線中獎
             if (distinctSymbols.Count == 1)
