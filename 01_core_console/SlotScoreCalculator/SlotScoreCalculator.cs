@@ -5,6 +5,7 @@ namespace SlotScoreCalculator;
 public class SlotScoreCalculator
 {
     private List<List<string>> wheels;
+    private readonly Random random;
 
     //設定中獎賠率
     private static readonly IReadOnlyDictionary<int, int> Odds = new Dictionary<int, int>
@@ -15,9 +16,10 @@ public class SlotScoreCalculator
             { 3, 100 }
         };
 
-    public SlotScoreCalculator(List<List<string>> wheels)
+    public SlotScoreCalculator(List<List<string>> wheels, Random random)
     {
         this.wheels = wheels;
+        this.random = random;
     }
 
     public int Calculate(int bet)

@@ -1,14 +1,17 @@
-# play_tdd_csharp
+﻿# play_tdd_csharp
 
-以 C# 練習 TDD（測試驅動開發）的範例專案，主要放置核心邏輯與對應測試。
+使用 C# 進行 TDD 練習的範例專案，包含兩組核心範例與對應 NUnit 測試。
 
-## 專案目標
+## 專案現況摘要
 
-- 使用小型題目練習 Red-Green-Refactor 流程
-- 建立可重複執行的單元測試習慣
-- 將商業邏輯與測試專案分離，保持結構清楚
+- Solution：`play_tdd_csharp.slnx`
+- Target Framework：`net10.0`
+- 測試框架：`NUnit`
+- 主要範例：
+  - `PrimeService`：質數判斷
+  - `SlotScoreCalculator`：老虎機賠率計算
 
-## 專案結構
+## 目錄結構
 
 ```text
 01_core_console/
@@ -17,29 +20,53 @@
   SlotScoreCalculator/
   SlotScoreCalculator.Tests/
 play_tdd_csharp.slnx
+README.md
 ```
 
-- `PrimeService`：質數判斷邏輯（已實作）
-- `PrimeService.Tests`：`PrimeService` 的 NUnit 測試（已建立基本案例）
-- `SlotScoreCalculator`：拉霸分數計算邏輯（目前為骨架）
-- `SlotScoreCalculator.Tests`：`SlotScoreCalculator` 的 NUnit 測試（目前為基本範本）
+## 功能說明
 
-## 技術與測試框架
+### PrimeService
 
-- .NET：`net10.0`
-- 測試框架：`NUnit`
-- 測試執行：`Microsoft.NET.Test.Sdk` + `NUnit3TestAdapter`
-- 覆蓋率工具：`coverlet.collector`
+- 程式位置：`01_core_console/PrimeService/PrimeService.cs`
+- 提供 `IsPrime(int candidate)`：
+  - 小於 2 回傳 `false`
+  - 2 回傳 `true`
+  - 偶數回傳 `false`
+  - 其餘以奇數除數檢查至 `sqrt(candidate)`
 
-## 如何執行測試
+### SlotScoreCalculator
 
-在專案根目錄執行：
+- 程式位置：`01_core_console/SlotScoreCalculator/SlotScoreCalculator.cs`
+- `Calculate(int bet)` 依中線數套用賠率：
+  - 0 線 -> 0 倍
+  - 1 線 -> 10 倍
+  - 2 線 -> 40 倍
+  - 3 線 -> 100 倍
+- 回傳值為 `賠率 * bet`
+
+## 測試現況（2026-02-15）
+
+執行指令：
 
 ```bash
 dotnet test play_tdd_csharp.slnx
 ```
 
-## 目前狀態
+目前結果：
 
-- `PrimeService`：已有質數判斷實作與基礎測試
-- `SlotScoreCalculator`：待實作核心邏輯與完整測試案例
+- `SlotScoreCalculator.Tests`：4 通過 / 0 失敗 / 0 略過
+
+
+## 開發需求
+
+- 安裝 .NET SDK 10（可由 `TargetFramework: net10.0` 推知）
+- 建議使用：
+  - Visual Studio 2022 / VS Code
+  - `dotnet` CLI
+
+## 快速開始
+
+```bash
+dotnet restore play_tdd_csharp.slnx
+dotnet test play_tdd_csharp.slnx
+```

@@ -1,15 +1,27 @@
-﻿namespace SlotScoreCalculator.Tests;
+﻿using System;
+using System.Collections.Generic;
+using Moq;
+using NUnit.Framework;
 
+namespace SlotScoreCalculator.Tests;
+
+[TestFixture]
 public class SlotScoreCalculatorTests
 {
+    private Mock<Random> _randomMock;
+
     [SetUp]
     public void Setup()
     {
+        _randomMock = new Mock<Random>();
     }
 
     [Test]
     public void ThreeLines()
     {
+        _randomMock.Setup(r => r.Next(It.IsAny<int>()))
+            .Returns(0);
+
         // 轉出三條線
         var wheels = new List<List<string>>
         {
@@ -20,7 +32,7 @@ public class SlotScoreCalculatorTests
                 new() { "A", "2", "3" }
         };
         var sut = new SlotScoreCalculator(wheels
-            );
+            , _randomMock.Object);
 
         //斷言：10 塊錢賠 100 倍，贏得得分應為 1000
         int win = sut.Calculate(10);
@@ -30,6 +42,9 @@ public class SlotScoreCalculatorTests
     [Test]
     public void TwoLines()
     {
+        _randomMock.Setup(r => r.Next(It.IsAny<int>()))
+    .Returns(0);
+
         // 轉出兩條線
         var wheels = new List<List<string>>
         {
@@ -39,7 +54,7 @@ public class SlotScoreCalculatorTests
                 new() { "A", "2", "3" },
                 new() { "A", "2", "4" }
         };
-        var sut = new SlotScoreCalculator(wheels
+        var sut = new SlotScoreCalculator(wheels, _randomMock.Object
             );
 
         //斷言：10 塊錢賠 40 倍，贏得得分應為 400
@@ -50,6 +65,9 @@ public class SlotScoreCalculatorTests
     [Test]
     public void OneLine()
     {
+        _randomMock.Setup(r => r.Next(It.IsAny<int>()))
+    .Returns(0);
+
         // 轉出一條線
         var wheels = new List<List<string>>
         {
@@ -59,7 +77,7 @@ public class SlotScoreCalculatorTests
                 new() { "A", "2", "3" },
                 new() { "A", "3", "4" }
         };
-        var sut = new SlotScoreCalculator(wheels
+        var sut = new SlotScoreCalculator(wheels, _randomMock.Object
             );
 
         //斷言：10 塊錢賠 10 倍，贏得得分應為 100
@@ -70,6 +88,9 @@ public class SlotScoreCalculatorTests
     [Test]
     public void Lose()
     {
+        _randomMock.Setup(r => r.Next(It.IsAny<int>()))
+    .Returns(0);
+
         // 轉的結果沒中
         var wheels = new List<List<string>>
         {
@@ -79,7 +100,7 @@ public class SlotScoreCalculatorTests
                 new() { "A", "2", "3" },
                 new() { "2", "3", "4" }
         };
-        var sut = new SlotScoreCalculator(wheels
+        var sut = new SlotScoreCalculator(wheels, _randomMock.Object
             );
 
         //沒有中獎，賠率為 0，所以贏得的分數也是 0
