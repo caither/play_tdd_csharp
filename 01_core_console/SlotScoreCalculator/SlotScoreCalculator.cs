@@ -21,8 +21,8 @@ public class SlotScoreCalculator
                 wheels.Select(wheel => wheel[i]).Distinct().ToList();
             if (distinctSymbols.Count == 1)
             {
-                //一條線中獎，獲得 40 倍賠率
-                odd = 40;
+                //一條線中獎，獲得 10 倍賠率
+                odd = 10;
                 break;
             }
         }

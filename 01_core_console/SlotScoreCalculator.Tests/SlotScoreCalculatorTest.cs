@@ -7,8 +7,9 @@ public class SlotScoreCalculatorTests
     {
     }
 
+
     [Test]
-    public void One_Line()
+    public void OneLine()
     {
         // 轉出一條線
         var wheels = new List<List<string>>
@@ -22,9 +23,9 @@ public class SlotScoreCalculatorTests
         var sut = new SlotScoreCalculator(wheels
             );
 
-        //斷言：10 塊錢賠 40 倍，贏得得分應為 400
+        //斷言：10 塊錢賠 10 倍，贏得得分應為 100
         int win = sut.calculate(10);
-        Assert.That(win, Is.EqualTo(400));
+        Assert.That(win, Is.EqualTo(100));
     }
 
     [Test]
