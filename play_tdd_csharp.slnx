@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/01_core_console/">
+    <Project Path="01_core_console/PrimeService.Tests/PrimeService.Tests.csproj" />
+    <Project Path="01_core_console/PrimeService/PrimeService.csproj" />
+    <Project Path="01_core_console/SlotScoreCalculator.Tests/SlotScoreCalculator.Tests.csproj" />
+    <Project Path="01_core_console/SlotScoreCalculator/SlotScoreCalculator.csproj" />
+  </Folder>
+</Solution>
