@@ -19,6 +19,7 @@ public class SlotScoreCalculatorTests
     [Test]
     public void ThreeLines()
     {
+        // 模擬隨機數產生器，讓它每次都回傳 0，這樣就能確保每條線都會轉出 "A"
         _randomMock.Setup(r => r.Next(It.IsAny<int>()))
             .Returns(0);
 
@@ -42,6 +43,7 @@ public class SlotScoreCalculatorTests
     [Test]
     public void TwoLines()
     {
+        // 模擬隨機數產生器，讓它每次都回傳 0 (不轉動)
         _randomMock.Setup(r => r.Next(It.IsAny<int>()))
     .Returns(0);
 
@@ -65,6 +67,7 @@ public class SlotScoreCalculatorTests
     [Test]
     public void OneLine()
     {
+        // 模擬隨機數產生器，讓它每次都回傳 0 (不轉動)
         _randomMock.Setup(r => r.Next(It.IsAny<int>()))
     .Returns(0);
 
@@ -88,6 +91,7 @@ public class SlotScoreCalculatorTests
     [Test]
     public void Lose()
     {
+        // 模擬隨機數產生器，讓它每次都回傳 0 (不轉動)
         _randomMock.Setup(r => r.Next(It.IsAny<int>()))
     .Returns(0);
 

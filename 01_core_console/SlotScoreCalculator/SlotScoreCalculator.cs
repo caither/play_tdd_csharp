@@ -19,14 +19,36 @@ public class SlotScoreCalculator
     public SlotScoreCalculator(List<List<string>> wheels, Random random)
     {
         this.wheels = wheels;
+
+        // 為了測試方便，將 Random 注入到建構子中，這樣就可以在測試中模擬隨機數產生器的行為
         this.random = random;
     }
 
     public int Calculate(int bet)
     {
-        List<List<string>> screen = wheels;
+        //List<List<string>> screen = wheels;
+        var screen = new List<List<string>>();
 
         // --用screen代表wheels隨機輪轉結果--
+        foreach (var wheel in wheels)
+        {
+            if (wheel == null) throw new ArgumentNullException("wheel 不能為空");
+
+            // 將輪帶複製兩遍，避免 nextPosition 接近末尾時取 3 個符號越界
+            // [A,B,C] => [A,B,C,A,B,C]
+            var extendedWheel = wheel.Concat(wheel).ToList();
+            if (extendedWheel.Count < 3) throw new InvalidOperationException("每個 wheel 必須至少包含 3 個符號");
+
+            // Next(max) 回傳 0..max-1
+            int nextPosition = random.Next(wheel.Count);
+
+            // 對應 Java: wheel.subList(nextPosition, nextPosition + 3)
+            var column = extendedWheel.GetRange(nextPosition, 3);
+
+            screen.Add(column);
+
+        }
+
 
         int odd = GetOdd(screen);
         return odd * bet;
