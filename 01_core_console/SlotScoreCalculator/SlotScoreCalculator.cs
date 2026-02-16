@@ -26,27 +26,29 @@ public class SlotScoreCalculator
 
     public int Calculate(int bet)
     {
-        var screen = new List<List<string>>();
+        // 對每個 reel 進行轉動，取出螢幕上顯示的 3 符號
+        // 對應 Java: reels.stream().map(reel -> { ... }
+        var screen = reels.Select(
+            reel =>
+            {
+                int reelSize = reel.Count;
 
-        // 用screen代表reels隨機輪轉結果
-        foreach (var reel in reels)
-        {
-            if (reel == null) throw new ArgumentNullException("reel 不能為空");
+                if (reel == null) throw new ArgumentNullException("reel 不能為空", nameof(reels));
+                if (reelSize == 0) throw new ArgumentException("reel 不能為空", nameof(reels));
 
-            // 將輪帶複製兩遍，避免 nextPosition 接近末尾時取 3 個符號越界
-            // [A,B,C] => [A,B,C,A,B,C]
-            var extendedWheel = reel.Concat(reel).ToList();
-            if (extendedWheel.Count < 3) throw new InvalidOperationException("每個 reel 必須至少包含 3 個符號");
+                // Next(max) 回傳 0..max-1
+                int nextPosition = random.Next(reelSize);
 
-            // Next(max) 回傳 0..max-1
-            int nextPosition = random.Next(reel.Count);
-
-            // 對應 Java: wheel.subList(nextPosition, nextPosition + 3)
-            var column = extendedWheel.GetRange(nextPosition, 3);
-
-            screen.Add(column);
-
-        }
+                // 避免 nextPosition 接近末尾時取 3 個符號越界
+                // 改掉將輪帶複製兩遍的做法，直接在取符號時使用模運算來繞回輪帶的開頭
+                return new List<string>
+                    {
+                        reel[(nextPosition + 0) % reelSize],
+                        reel[(nextPosition + 1) % reelSize],
+                        reel[(nextPosition + 2) % reelSize]
+                    };
+            }
+        ).ToList();
 
         // 將轉動結果輸出到 console，方便觀察
         //RenderScreen(screen);
@@ -81,7 +83,7 @@ public class SlotScoreCalculator
         for (int i = 0; i < 3; i++)
         {
             var distinctSymbols =
-                screen.Select(reel => reel[i]).Distinct().ToList();
+                screen.Select(reel => reel[i]).ToHashSet();
 
             //每一條線中獎
             if (distinctSymbols.Count == 1)
@@ -91,7 +93,7 @@ public class SlotScoreCalculator
         }
 
         return lines;
-    } // GetLines()
+    } // GetLines(screen)
 
     // =============================
     // Screen 視覺化輸出
