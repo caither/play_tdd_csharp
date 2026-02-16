@@ -33,7 +33,7 @@ public class SlotScoreCalculatorTests
                 new() { "A", "2", "3" }
         };
         var sut = new SlotScoreCalculator(reels
-            , _randomMock.Object);
+            , _randomMock.Object, new PayTable());
 
         //斷言：10 塊錢賠 100 倍，贏得得分應為 1000
         int win = sut.Calculate(10);
@@ -57,7 +57,7 @@ public class SlotScoreCalculatorTests
                 new() { "A", "2", "4" }
         };
         var sut = new SlotScoreCalculator(reels, _randomMock.Object
-            );
+, new PayTable());
 
         //斷言：10 塊錢賠 40 倍，贏得得分應為 400
         int win = sut.Calculate(10);
@@ -81,7 +81,7 @@ public class SlotScoreCalculatorTests
                 new() { "A", "3", "4" }
         };
         var sut = new SlotScoreCalculator(reels, _randomMock.Object
-            );
+, new PayTable());
 
         //斷言：10 塊錢賠 10 倍，贏得得分應為 100
         int win = sut.Calculate(10);
@@ -105,7 +105,7 @@ public class SlotScoreCalculatorTests
                 new() { "2", "3", "4" }
         };
         var sut = new SlotScoreCalculator(reels, _randomMock.Object
-            );
+, new PayTable());
 
         //沒有中獎，賠率為 0，所以贏得的分數也是 0
         int win = sut.Calculate(10);
