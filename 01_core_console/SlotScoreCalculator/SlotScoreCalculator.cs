@@ -4,7 +4,7 @@ namespace SlotScoreCalculator;
 
 public class SlotScoreCalculator
 {
-    private List<List<string>> wheels;
+    private List<List<string>> reels;
     private readonly Random random;
 
     //設定中獎賠率
@@ -16,9 +16,9 @@ public class SlotScoreCalculator
             { 3, 100 }
         };
 
-    public SlotScoreCalculator(List<List<string>> wheels, Random random)
+    public SlotScoreCalculator(List<List<string>> reels, Random random)
     {
-        this.wheels = wheels;
+        this.reels = reels;
 
         // 為了測試方便，將 Random 注入到建構子中，這樣就可以在測試中模擬隨機數產生器的行為
         this.random = random;
@@ -26,21 +26,20 @@ public class SlotScoreCalculator
 
     public int Calculate(int bet)
     {
-        //List<List<string>> screen = wheels;
         var screen = new List<List<string>>();
 
-        // --用screen代表wheels隨機輪轉結果--
-        foreach (var wheel in wheels)
+        // 用screen代表reels隨機輪轉結果
+        foreach (var reel in reels)
         {
-            if (wheel == null) throw new ArgumentNullException("wheel 不能為空");
+            if (reel == null) throw new ArgumentNullException("reel 不能為空");
 
             // 將輪帶複製兩遍，避免 nextPosition 接近末尾時取 3 個符號越界
             // [A,B,C] => [A,B,C,A,B,C]
-            var extendedWheel = wheel.Concat(wheel).ToList();
-            if (extendedWheel.Count < 3) throw new InvalidOperationException("每個 wheel 必須至少包含 3 個符號");
+            var extendedWheel = reel.Concat(reel).ToList();
+            if (extendedWheel.Count < 3) throw new InvalidOperationException("每個 reel 必須至少包含 3 個符號");
 
             // Next(max) 回傳 0..max-1
-            int nextPosition = random.Next(wheel.Count);
+            int nextPosition = random.Next(reel.Count);
 
             // 對應 Java: wheel.subList(nextPosition, nextPosition + 3)
             var column = extendedWheel.GetRange(nextPosition, 3);
@@ -50,7 +49,7 @@ public class SlotScoreCalculator
         }
 
         // 將轉動結果輸出到 console，方便觀察
-        RenderScreen(screen);
+        //RenderScreen(screen);
 
         int odd = GetOdd(screen);
         return odd * bet;
@@ -82,7 +81,7 @@ public class SlotScoreCalculator
         for (int i = 0; i < 3; i++)
         {
             var distinctSymbols =
-                screen.Select(wheel => wheel[i]).Distinct().ToList();
+                screen.Select(reel => reel[i]).Distinct().ToList();
 
             //每一條線中獎
             if (distinctSymbols.Count == 1)
