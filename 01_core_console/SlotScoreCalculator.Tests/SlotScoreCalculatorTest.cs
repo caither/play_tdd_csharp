@@ -69,7 +69,7 @@ public class SlotScoreCalculatorTests
     {
         // 模擬隨機數產生器，讓它每次都回傳 0 (不轉動)
         _randomMock.Setup(r => r.Next(It.IsAny<int>()))
-    .Returns(0);
+    .Returns(1);
 
         // 轉出一條線
         var wheels = new List<List<string>>
@@ -93,7 +93,7 @@ public class SlotScoreCalculatorTests
     {
         // 模擬隨機數產生器，讓它每次都回傳 0 (不轉動)
         _randomMock.Setup(r => r.Next(It.IsAny<int>()))
-    .Returns(0);
+    .Returns(2);
 
         // 轉的結果沒中
         var wheels = new List<List<string>>

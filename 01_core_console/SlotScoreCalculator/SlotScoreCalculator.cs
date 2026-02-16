@@ -49,6 +49,8 @@ public class SlotScoreCalculator
 
         }
 
+        // 將轉動結果輸出到 console，方便觀察
+        RenderScreen(screen);
 
         int odd = GetOdd(screen);
         return odd * bet;
@@ -90,5 +92,26 @@ public class SlotScoreCalculator
         }
 
         return lines;
+    } // GetLines()
+
+    // =============================
+    // Screen 視覺化輸出
+    // =============================
+    private void RenderScreen(List<List<string>> screen)
+    {
+        Console.WriteLine("=== SLOT SCREEN ===");
+
+        // row 0~2（上、中、下）
+        for (int row = 0; row < 3; row++)
+        {
+            for (int col = 0; col < screen.Count; col++)
+            {
+                Console.Write($"[{screen[col][row]}]");
+            }
+            Console.WriteLine();
+        }
+
+        Console.WriteLine("===================");
+        Console.WriteLine();
     }
 }
